@@ -1,0 +1,14 @@
+{
+  "name": "@4onv/cueaudit",
+  "version": "0.1.0",
+  "description": "Catch subtitle cleanup changes to timing, numbers, negation, and protected terms. Offline, cue by cue.",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=22" },
+  "bin": { "cueaudit": "bin/cueaudit.mjs" },
+  "exports": { ".": "./src/index.mjs" },
+  "files": ["bin", "src", "examples", "docs", "README.md", "LICENSE", "SECURITY.md", "CONTRIBUTING.md", "CHANGELOG.md"],
+  "scripts": { "test": "node --test", "demo": "node bin/cueaudit.mjs demo", "test:package": "node scripts/package-smoke.mjs" },
+  "repository": { "type": "git", "url": "https://github.com/4onv/cueaudit.git" },
+  "keywords": ["subtitles", "srt", "webvtt", "transcription", "quality-assurance", "offline"]
+}

@@ -1,0 +1,12 @@
+1
+00:00:00,000 --> 00:00:02,000
+Keep 12 draft clips. Do not publish!
+
+2
+00:00:03,000 --> 00:00:05,000
+Publish 24 approved clips
+to https://example.com/review.
+
+3
+00:00:06,000 --> 00:00:09,000
+Email editor@example.com about Project Orion!

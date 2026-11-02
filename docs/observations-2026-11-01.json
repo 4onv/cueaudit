@@ -1,0 +1,139 @@
+{
+  "researchDate": "2026-11-01",
+  "timezone": "America/Chicago",
+  "utcWindow": {
+    "startInclusive": "2026-11-01T05:00:00Z",
+    "endExclusive": "2026-11-02T06:00:00Z",
+    "note": "25-hour calendar day due to daylight saving time ending."
+  },
+  "historicalSnapshot": {
+    "type": "third-party collector observation, not official all-day ranking",
+    "capturedAt": "2026-11-01T08:50:20Z",
+    "url": "https://github.com/JackEasons/github-trending/blob/f74fe33f0fdd678af77ca80a3cf861734a6f30e2/2026/2026-11-01.md",
+    "commitUrl": "https://github.com/JackEasons/github-trending/commit/f74fe33f0fdd678af77ca80a3cf861734a6f30e2",
+    "general": [
+      {
+        "position": 1,
+        "repository": "thedotmack/claude-mem",
+        "url": "https://github.com/thedotmack/claude-mem",
+        "observedTotalStars": 108276
+      },
+      {
+        "position": 2,
+        "repository": "mattpocock/skills",
+        "url": "https://github.com/mattpocock/skills",
+        "observedTotalStars": 308728
+      },
+      {
+        "position": 3,
+        "repository": "Donchitos/Claude-Code-Game-Studios",
+        "url": "https://github.com/Donchitos/Claude-Code-Game-Studios",
+        "observedTotalStars": 31479
+      },
+      {
+        "position": 4,
+        "repository": "pingdotgg/t3code",
+        "url": "https://github.com/pingdotgg/t3code",
+        "observedTotalStars": 36190
+      },
+      {
+        "position": 5,
+        "repository": "Renhuai123/ziwei-doushu",
+        "url": "https://github.com/Renhuai123/ziwei-doushu",
+        "observedTotalStars": 12626
+      },
+      {
+        "position": 6,
+        "repository": "milind-soni/OpenMausBot",
+        "url": "https://github.com/milind-soni/OpenMausBot",
+        "observedTotalStars": 9976
+      },
+      {
+        "position": 7,
+        "repository": "pbakaus/impeccable",
+        "url": "https://github.com/pbakaus/impeccable",
+        "observedTotalStars": 98656
+      },
+      {
+        "position": 8,
+        "repository": "obra/superpowers",
+        "url": "https://github.com/obra/superpowers",
+        "observedTotalStars": 310264
+      },
+      {
+        "position": 9,
+        "repository": "lightpanda-io/browser",
+        "url": "https://github.com/lightpanda-io/browser",
+        "observedTotalStars": 39475
+      },
+      {
+        "position": 10,
+        "repository": "HKUDS/DeepTutor",
+        "url": "https://github.com/HKUDS/DeepTutor",
+        "observedTotalStars": 53179
+      },
+      {
+        "position": 11,
+        "repository": "Orkas-AI/Orkas",
+        "url": "https://github.com/Orkas-AI/Orkas",
+        "observedTotalStars": 7012
+      },
+      {
+        "position": 12,
+        "repository": "THU-MAIC/OpenMAIC",
+        "url": "https://github.com/THU-MAIC/OpenMAIC",
+        "observedTotalStars": 42315
+      },
+      {
+        "position": 13,
+        "repository": "bregman-arie/devops-exercises",
+        "url": "https://github.com/bregman-arie/devops-exercises",
+        "observedTotalStars": 86189
+      },
+      {
+        "position": 14,
+        "repository": "vorssaint/vorssaint-utils",
+        "url": "https://github.com/vorssaint/vorssaint-utils",
+        "observedTotalStars": 32119
+      }
+    ],
+    "additionalSignal": {
+      "repository": "moonshine-ai/moonshine",
+      "category": "c++",
+      "observedTotalStars": 11352
+    }
+  },
+  "primaryActivity": [
+    {
+      "repository": "anomalyco/hex",
+      "type": "issue",
+      "url": "https://github.com/anomalyco/hex/issues/949",
+      "createdAt": "2026-11-02T04:10:18Z",
+      "finding": "Reporter describes cleanup changing numeric-only dictation and list formatting."
+    },
+    {
+      "repository": "anomalyco/hex",
+      "type": "commit",
+      "url": "https://github.com/anomalyco/hex/commit/1d4904c6bba9ab91f631c8c79108c3847b1b1c60",
+      "committedAt": "2026-11-02T04:14:30Z",
+      "finding": "Number-preservation rules and numeric-only bypass."
+    },
+    {
+      "repository": "cjpais/Handy",
+      "type": "commit",
+      "url": "https://github.com/cjpais/Handy/commit/889fca0d1cf38d07f0b640478d22341d9c6a9327",
+      "committedAt": "2026-11-02T03:00:24Z",
+      "finding": "Retain original transcript when post-processing returns empty output."
+    }
+  ],
+  "selection": {
+    "project": "cueaudit",
+    "inference": "Apply explicit preservation checks to timed subtitle cleanup with exact cue correspondence and a reusable offline interface.",
+    "notEstablished": [
+      "Expected star growth",
+      "Historical daily star gains",
+      "That a subtitle checker was requested by the issue reporter",
+      "Semantic equivalence or correctness"
+    ]
+  }
+}

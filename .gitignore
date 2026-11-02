@@ -1,0 +1,8 @@
+node_modules/
+.cueaudit/
+*.tgz
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
