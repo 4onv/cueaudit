@@ -26,6 +26,40 @@ test('word boundaries avoid numbers inside identifiers and number-word substring
   assert.ok(!codes(report).includes('numbers-changed'));
 });
 
+test('supported entities compare as visible text without forcing manual review', () => {
+  const before = doc(['<b>Do not spend &#49;&#x32;.</b> A&amp;B &quot;ok&quot; don&apos;t &nbsp;']);
+  const after = doc(['Do not spend 12. A&B "ok" don\'t \u00a0']);
+  const report = auditSubtitles(before, after, { protect: ['A&B', '"ok"', "don't"] });
+  assert.equal(report.status, 'no-flags');
+  assert.equal(report.summary.changedCues, 1);
+  assert.equal(auditSubtitles(doc(['Visit https://example.com/?a=1&amp;b=2']), doc(['Visit https://example.com/?a=1&b=2'])).status, 'no-flags');
+});
+
+test('numeric entities cannot hide changed numbers, negations, or protected text', () => {
+  const report = auditSubtitles(doc(['&#x6e;ot &#49;&#50; A&amp;B']), doc(['&#49;&#51; A&amp;C']), { protect: ['A&B'] });
+  assert.deepEqual(codes(report), ['numbers-changed', 'negations-changed', 'protected-changed']);
+  assert.deepEqual(report.findings[0].details.before, ['12']);
+  assert.deepEqual(report.findings[0].details.after, ['13']);
+});
+
+test('entity decoding is one pass and escaped tags remain literal protected text', () => {
+  const literal = doc(['&lt;b&gt;not 12&lt;/b&gt;']);
+  assert.equal(auditSubtitles(literal, literal, { protect: ['<b>not 12</b>'] }).status, 'no-flags');
+  const removed = auditSubtitles(literal, doc(['<b>not 12</b>']), { protect: ['<b>not 12</b>'] });
+  assert.deepEqual(codes(removed), ['protected-changed']);
+  const once = auditSubtitles(doc(['&amp;#49;']), doc(['1']), { protect: ['&#49;'] });
+  assert.ok(codes(once).includes('protected-changed'));
+  const split = auditSubtitles(doc(['&am<b></b>p;']), doc(['&amp;']), { protect: ['&amp;'] });
+  assert.deepEqual(codes(split), ['protected-changed']);
+});
+
+test('unknown references and unsafe Unicode scalar values remain unsupported', () => {
+  for (const text of ['&copy;', '&AMPx;', '&#0;', '&#27;', '&#128;', '&#xD800;', '&#xFDD0;', '&#xFFFF;', '&#x10FFFF;', '&#x110000;']) {
+    assert.ok(codes(auditSubtitles(doc([text]), doc([text]))).includes('unsupported-markup'), text);
+  }
+  assert.equal(auditSubtitles(doc(['&#x1f600;']), doc(['😀'])).status, 'no-flags');
+});
+
 test('same file-wide totals do not hide numbers or negations moved between cues', () => {
   const report = auditSubtitles(doc(['Do not use 12.', 'Use 8.']), doc(['Use 8.', 'Do not use 12.']));
   assert.equal(report.findings.filter(f => f.code === 'numbers-changed').length, 2);
@@ -82,7 +116,7 @@ test('empty cue text, metadata, container and cue settings changes require revie
 });
 
 test('unknown markup, entities, broken tags and voice annotations cannot silently pass', () => {
-  for (const text of ['<v Alice>Hello', 'One &amp; two', '<b>one', '<i><b>x</i></b>', '<script>x</script>', 'x < y']) {
+  for (const text of ['<v Alice>Hello', 'One &copy; two', '<b>one', '<i><b>x</i></b>', '<script>x</script>', 'x < y']) {
     assert.ok(codes(auditSubtitles(doc([text]), doc([text]))).includes('unsupported-markup'), text);
   }
   assert.equal(auditSubtitles(doc(['<b>One <i>two</i></b>']), doc(['One two'])).status, 'no-flags');

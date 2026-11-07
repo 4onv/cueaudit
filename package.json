@@ -1,6 +1,6 @@
 {
   "name": "@4onv/cueaudit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Catch subtitle cleanup changes to timing, numbers, negation, and protected terms. Offline, cue by cue.",
   "type": "module",
   "license": "MIT",

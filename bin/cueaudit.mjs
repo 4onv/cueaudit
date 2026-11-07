@@ -33,7 +33,7 @@ async function protectTerms(file) {
 async function main() {
   const { values, positionals } = parseArgs({ allowPositionals:true, options:{ format:{type:'string'}, protect:{type:'string'}, output:{type:'string'}, help:{type:'boolean'}, version:{type:'boolean'} } });
   if (values.help || !positionals.length && !values.version) { console.log(help); return; }
-  if (values.version) { console.log('0.1.0'); return; }
+  if (values.version) { console.log('0.1.1'); return; }
   const [command, originalFile, candidateFile] = positionals;
   if (!['check','guard','demo'].includes(command)) throw new Error('Unknown command. See --help.');
   const accepted = command === 'demo' ? ['format'] : command === 'guard' ? ['protect','output'] : ['protect','format'];

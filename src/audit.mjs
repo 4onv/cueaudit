@@ -49,16 +49,36 @@ function groupIntervals(cues) {
 function visibleText(text) {
   const stack = [];
   let unsupported = false;
-  const plain = text.replace(/<[^<>]*>/g, tag => {
-    const basic = /^<(\/)?(b|i|u)>$/i.exec(tag);
-    if (!basic) { unsupported = true; return tag; }
-    const name = basic[2].toLowerCase();
-    if (basic[1]) { if (stack.pop() !== name) unsupported = true; }
-    else stack.push(name);
-    return '';
+  // Handle raw tags and entities in one pass: &lt;b&gt; is visible text,
+  // not styling, and a reference split by a tag must not become an entity.
+  // This deliberately small HTML reference subset works for WebVTT and the
+  // documented SRT projection; unknown or unsafe references still need review.
+  const named = { amp: '&', AMP: '&', lt: '<', LT: '<', gt: '>', GT: '>', quot: '"', QUOT: '"', apos: "'", nbsp: '\u00a0' };
+  const decoded = text.replace(/<[^<>]*>|&([a-z][a-z0-9]*|#\d+|#x[a-f0-9]+);|[<>]/gi, (reference, body) => {
+    if (body === undefined) {
+      const basic = /^<(\/)?(b|i|u)>$/i.exec(reference);
+      if (!basic) { unsupported = true; return reference; }
+      const name = basic[2].toLowerCase();
+      if (basic[1]) { if (stack.pop() !== name) unsupported = true; }
+      else stack.push(name);
+      return '';
+    }
+    if (Object.hasOwn(named, body)) return named[body];
+    if (body.startsWith('#')) {
+      const hex = /^#x/i.test(body);
+      const code = Number.parseInt(body.slice(hex ? 2 : 1), hex ? 16 : 10);
+      if (Number.isInteger(code) && code > 0 && code <= 0x10ffff
+          && !(code >= 0xd800 && code <= 0xdfff)
+          && !(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f]/u.test(String.fromCodePoint(code)))
+          && !(code >= 0xfdd0 && code <= 0xfdef) && (code & 0xffff) < 0xfffe) {
+        return String.fromCodePoint(code);
+      }
+    }
+    unsupported = true;
+    return reference;
   });
-  if (stack.length || /[<>]/.test(plain) || /&(?:[a-z][a-z0-9]*|#\d+|#x[a-f0-9]+);/i.test(plain)) unsupported = true;
-  return { text: plain, unsupported };
+  if (stack.length) unsupported = true;
+  return { text: decoded, unsupported };
 }
 
 function anchors(text) {
