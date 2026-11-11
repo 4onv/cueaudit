@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2 — 2026-11-11
+
+- Reject POSIX named pipes immediately when reading subtitle inputs or protected terms.
+
 ## 0.1.1 — 2026-11-07
 
 - Decode a documented subset of named and numeric character references before anchor checks, avoiding automatic review for ordinary `&amp;` text.

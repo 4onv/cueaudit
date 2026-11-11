@@ -33,10 +33,10 @@ node bin/cueaudit.mjs check examples/original.srt examples/changed.srt --protect
 
 The last command intentionally exits `1` because the edited fixture needs review. `demo` always exits `0` when its demonstration completes and visibly labels the invented examples.
 
-For an installed CLI, download `4onv-cueaudit-0.1.1.tgz` from the [GitHub release](https://github.com/4onv/cueaudit/releases/tag/v0.1.1), then:
+For an installed CLI, download `4onv-cueaudit-0.1.2.tgz` from the [GitHub release](https://github.com/4onv/cueaudit/releases/tag/v0.1.2), then:
 
 ```sh
-npm install -g ./4onv-cueaudit-0.1.1.tgz --offline --ignore-scripts --no-audit --no-fund
+npm install -g ./4onv-cueaudit-0.1.2.tgz --offline --ignore-scripts --no-audit --no-fund
 cueaudit demo
 ```
 

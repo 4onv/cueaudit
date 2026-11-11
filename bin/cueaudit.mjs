@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { constants } from 'node:fs';
 import { parseArgs } from 'node:util';
 import { open, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -10,7 +11,7 @@ const help = `CueAudit — did subtitle cleanup change the details?\n\nUsage:\n 
 async function readUtf8(file, limit = 2 * 1024 * 1024) {
   let handle;
   try {
-    handle = await open(file, 'r');
+    handle = await open(file, constants.O_RDONLY | (constants.O_NONBLOCK ?? 0));
     const info = await handle.stat();
     if (!info.isFile() || info.size > limit) throw new Error();
     const buffer = Buffer.alloc(limit + 1);
@@ -33,7 +34,7 @@ async function protectTerms(file) {
 async function main() {
   const { values, positionals } = parseArgs({ allowPositionals:true, options:{ format:{type:'string'}, protect:{type:'string'}, output:{type:'string'}, help:{type:'boolean'}, version:{type:'boolean'} } });
   if (values.help || !positionals.length && !values.version) { console.log(help); return; }
-  if (values.version) { console.log('0.1.1'); return; }
+  if (values.version) { console.log('0.1.2'); return; }
   const [command, originalFile, candidateFile] = positionals;
   if (!['check','guard','demo'].includes(command)) throw new Error('Unknown command. See --help.');
   const accepted = command === 'demo' ? ['format'] : command === 'guard' ? ['protect','output'] : ['protect','format'];

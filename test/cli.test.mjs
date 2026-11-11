@@ -15,6 +15,18 @@ function cli(args,cwd=root) {
   const result = spawnSync(process.execPath,[bin,...args],{cwd,env,encoding:'utf8',windowsHide:true,timeout:15000,maxBuffer:1024*1024});
   assert.ifError(result.error); return result;
 }
+test('a POSIX subtitle FIFO fails without waiting for a writer', { skip: process.platform === 'win32' }, async () => {
+  const directory = await mkdtemp(path.join(tmpdir(), 'cueaudit-fifo-'));
+  try {
+    const fifo = path.join(directory, 'subtitle.srt');
+    assert.equal(spawnSync('mkfifo', [fifo], { timeout: 5000 }).status, 0);
+    const result = cli(['check', fifo, example('original.srt')]);
+    assert.equal(result.status, 2);
+    assert.match(result.stderr, /regular UTF-8 file/);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
 test('synthetic demo demonstrates harmless cleanup and moved anchors',() => {
   const result = cli(['demo','--format','json']);
   assert.equal(result.status,0,result.stderr);
